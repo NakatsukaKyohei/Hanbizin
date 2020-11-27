@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BodyTracking ヘルプ</title>
+    <style>
+        @font-face {
+            font-family: "huiji";
+            src: url("Sub/HuiFontP29.ttf") format("truetype");
+        }
+        
+        body {
+            background-color: rgb(255, 245, 245)
+        }
+        
+        div.box {
+            font-family: "huiji";
+            font-size: 120%;
+            letter-spacing: 0.03em;
+            width: 40em;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 1em 2em;
+            border: solid medium silver;
+            background-color: white;
+        }
+        
+        div.box2 {
+            width: 25em;
+            margin-left: 2em;
+            margin-right: auto;
+            padding: 0.5em 0.5em;
+            border: solid medium silver;
+            background-color: rgb(245, 245, 245);
+        }
+        
+        p {
+            text-indent: 1em;
+            line-height: 1.2em;
+        }
+        
+        ul {
+            line-height: 2.0em;
+        }
+        
+        li {
+            line-height: 1.5em;
+        }
+        
+        p.A {
+            text-indent: 0;
+            line-height: 1.2em;
+        }
+        
+        a.inner {
+            text-decoration: none;
+        }
+        
+        .dashed {
+            border: thin dashed gray
+        }
+        
+        .small {
+            font-size: 80%
+        }
+        
+        .Q {
+            color: blue;
+        }
+        
+        b.A {
+            font-size: 160%;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>はじめに</h1>
+        <hr>
+        <p>ご支援ありがとうございます。作者のやる気が1上がりました。</p>
+        <p>それはさておきここには、どのように導入すればいいかを書いてあります。FaceTrackingとは違い、こちらは設定は（数は多いけど）単純です。</p>
+        <p>一応 inspector 上で最低限わかるようにしている。
+            <span style="color:silver">…はず。</span>
+        </p>
+        <p>なお、導入のところはUnity初心者向けに書いてあるので、ある程度慣れてる方はすっ飛ばすことをおすすめします。</p>
+        <p>【初心者の方へ】Unityの基礎的なところはやや説明不足かもしれません。わからないところは調べてください。 Unityのコミニティーは活発なので、大抵調べれば出てきます。しかも日本語で。
+        </p>
+        <p>なお、このフォントが嫌な場合は、 Sub -> HuiFontP29 を消すなり Escape に移すなりすれば普通のフォントに戻ります。</p>
+        <br>
+        <hr class="dashed">
+        <h1>目次</h1>
+        <hr>
+        <div class="box2">
+            <ul>
+                <li><a href="#depend" class="inner">依存関係について</a></li>
+                <li><a href="#intoro" class="inner">導入方法</a></li>
+                <li><a href="#setting" class="inner">各設定の説明</a></li>
+                <li><a href="#Q1" class="inner">なんか動かない・おかしな動きする。</a></li>
+                <li><a href="#Q2" class="inner">頭と胴が動かない。</a></li>
+            </ul>
+        </div>
+
+        <hr class="dashed">
+        <h1>本編</h1>
+        <hr>
+        <h2 id="depend">依存関係</h2>
+        <hr>
+        <p>このパッケージには依存関係(導入してないと使えないもの)があります。</p>
+        <p>以下が一覧です。</p>
+        <ul>
+            <li>Visual Studio 2015 の Visual C++ 再頒布可能パッケージ</li>
+            <li>OpenCvSharp4 v4.4.0 @shimat</li>
+            <li>OpenCvSharpNative.unitypackage</li>
+            <li>TensorFlowLiteNative.unitypackage</li>
+            <li>UniVRM @dwango</li>
+            <li>Nuget for Unity @jwittner</li>
+        </ul>
+        <br>
+        <p>Visual Studio 2015 の Visual C++ 再頒布可能パッケージは、<a href="https://www.microsoft.com/ja-jp/download/details.aspx?id=48145" target="_blank" rel="noopener" class="small">こちら</a>からダウンロード、インストールしてください。</p>
+        <p>OpenCvSharp4 は Nuget for Unity で導入すると楽です。また、OpenCvSharp のネイティブdll が導入されないため、OpenCvSharpNative.unitypackage として同封しておきました。追加で、インポートしてください。</p>
+        <p><a href="Sub/import_nuget.html" target="_blank" rel="noopener" class="small">インポート方法</a></p>
+        <p>UniVRM の導入については皆さん調べてあると思いますし、 いくらでもやり方はネット上に転がっているので省略します。</p>
+        <p>Nuget for Unity ですが、 OpenCVSharp4 を導入するためだけに使います。
+            <b>中身には一切影響しません</b>。アセットストアにあるやつで間違いありませんが、 更新されていないので手動アップデートしてやる必要があります。
+        </p>
+        <p><a href="Sub/import_assetstore.html" target="_blank" rel="noopener" class="small">インポート方法</a></p>
+        <br>
+        <hr>
+        <h2 id="intoro">導入方法</h2>
+        <hr class="dashed">
+        <p>①依存関係のもの、私のアセットをインポートする。</p>
+        <p>②空のオブジェクトを作成し、そこに BodyTracking、ApplyBody 、Videoをアタッチする。（なお、Videoはシーン上に一つのみにしてください。）</p>
+        <p>③ Inpsector での項目を設定する。（各項目の説明は次にします。）</p>
+        <br>
+        <hr>
+        <h2 id="setting">各設定の説明</h2>
+        <hr class="dashed">
+        <p><b>BodyTracking.cs</b></p>
+        <ul>
+            <li>Debug setting ・・・ デバッグをするかどうか設定します。
+                <ul>
+                    <li>Debug log to file ・・・ 推定された2D、3Dの点とfpsとRotationをファイルに書き出します。</li>
+                    <li>Debug 2D position ・・・ Webカメラの画像から推定される画像上でのボーンを線で描写します。</li>
+                    <li>Debug 3D position ・・・ 推定された3D座標上のボーンを線で描写します。</li>
+                    <li>Debug fps ・・・ 測定されたfpsをUnityのログに流します。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Performance setting ・・・ 推定のパフォーマンスに関する設定をします。
+                <ul>
+                    <li>Max FPS ・・・ フレームレートの制限です。平均でしか調整できないのでごめんなさい。</li>
+                    <li>Thread ・・・ CPUの何スレッドを使用するか設定します。CPUの（コア数またはスレッド数） + 1 が最適です。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Reference setting ・・・ 参照を設定します。
+                <ul>
+                    <li>posenet.tflite ・・・ posenet.tflite のあるところのパスを入力します。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Distance setting ・・・ 体の各部位の距離を設定します。単位はm(メートル)。
+                <ul>
+                    <li>Shoulder line to nose ・・・ 両肩の中心から鼻までの距離。</li>
+                    <li>Nose to eye ・・・ 鼻から目までの距離。</li>
+                    <li>Nose to ear ・・・ 鼻から耳までの距離。</li>
+                    <li>Shoulder to elbow ・・・ 肩から肘までの距離。</li>
+                    <li>Elbow to wrist ・・・ 肘から手首までの距離。</li>
+                    <li>Shoulder to hip ・・・ 肩から股関節までの距離。</li>
+                    <li>Hip to knee ・・・ 股関節から膝までの距離。</li>
+                    <li>Knee to ankle ・・・ 膝から足首までの距離。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Initial position ・・・ 体の部位の初めの位置を設定します。
+                <ul>
+                    <li>Nose ・・・ 鼻の位置。</li>
+                    <li>Left eye ・・・ 左目の位置。</li>
+                    <li>Right eye ・・・ 右目の位置。</li>
+                    <li>Left ear ・・・ 左耳の位置。</li>
+                    <li>Right ear ・・・ 右耳の位置。</li>
+                    <li>Left shoulder ・・・ 左肩の位置。</li>
+                    <li>Right shoulder ・・・ 右肩の位置。</li>
+                    <li>Left elbow ・・・ 左肘の位置。</li>
+                    <li>Right elbow ・・・ 右肘の位置。</li>
+                    <li>Left wrist ・・・ 右手首の位置。</li>
+                    <li>Right wrist ・・・ 左手首の位置。</li>
+                    <li>Left hip ・・・ 左股関節の位置。</li>
+                    <li>Right hip ・・・ 右股関節の位置。</li>
+                    <li>Left knee ・・・ 左膝の位置。</li>
+                    <li>Right knee ・・・ 右膝の位置。</li>
+                    <li>Left ankle ・・・ 左足首の位置。</li>
+                    <li>Right ankle ・・・ 右足首の位置。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Max speed setting ・・・ 体の各部位の１フレーム当たりの制限速度を設定します。（ふっとび防止のため）
+                <ul>
+                    <li>Nose max speed ・・・ 鼻の制限速度。</li>
+                    <li>Eye max speed ・・・ 目の制限速度。</li>
+                    <li>Ear max speed ・・・ 耳の制限速度。</li>
+                    <li>Shoulder max speed ・・・ 肩の制限速度。</li>
+                    <li>Hip max speed ・・・ 股関節の制限速度。</li>
+                    <li>Knee max speed ・・・ 膝の制限速度。</li>
+                    <li>Ankle max speed ・・・ 足首の制限速度。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Other setting ・・・ その他の設定をします。
+                <ul>
+                    <li>Smooth ・・・ 動きの滑らかさを設定します。この数値が大きいと、滑らかになりやすいですが、動きの反映が遅くなります。</li>
+                    <li>Camera angle ・・・ カメラの縦の片側の視野角を入力します。……といってもわかりにくいので<a href="Sub/camera_setting.html" target="_blank" rel="noopener" class="small">こちら</a>で詳しく説明してます。</li>
+                </ul>
+            </li>
+        </ul>
+        <br>
+        <hr class="dashed">
+        <p><b>ApplyBody.cs</b></p>
+        <ul>
+            <li>Transform reference setting ・・・ Transform の参照を設定します。同じ名前のボーンをD&Dすれば大丈夫です。
+                <ul>
+                    <li>Position ・・・ モデルのルートの Transform。</li>
+                    <li>Bip_C_Hips ・・・ モデルの股関節の Transform。</li>
+                    <li>Bip_C_Head ・・・ モデルの頭の Transform。</li>
+                    <li>Bip_R_UpperArm ・・・ モデルの右上腕の Transform。</li>
+                    <li>Bip_R_LowerArm ・・・ モデルの右下腕の Transform。</li>
+                    <li>Bip_L_UpperArm ・・・ モデルの左上腕の Transform。</li>
+                    <li>Bip_L_LowerArm ・・・ モデルの左下腕の Transform。</li>
+                    <li>Bip_R_UpperLeg ・・・ モデルの右太腿の Transform。</li>
+                    <li>Bip_R_LowerLeg ・・・ モデルの右膝下の Transform。</li>
+                    <li>Bip_L_UpperLeg ・・・ モデルの左太腿の Transform。</li>
+                    <li>Bip_L_LowerLeg ・・・ モデルの左膝下の Transform。</li>
+                </ul>
+            </li>
+        </ul>
+        <br>
+        <hr>
+        <h2 id="Q1"><b class="Q">Q.</b>なんか動きません。おかしな動きをします。</h2>
+        <hr class="dashed">
+        <p class="A"><b class="A">A.</b>まず、問題の切り分けをします。</p>
+        <ol>
+            <li>適当に Plane を作ってそこに DebugVideo.cs をアタッチしてシーンを再生します。
+                <p> ここで、Plane にカメラの画像が映らなければカメラの問題です。ほかのアプリ等を使用して正常に映るか確認してください。 ほかのアプリで正常に映るのであれば、BodyTracking_UnityEvents.cs の118行目の VideoCapture()内の数値を変えて確かめてみてください。
+                </p>
+            </li>
+            <li>BodyTracking.cs の Debug 2D Position をオンにします。
+                <p>ここで、原点付近に棒人間が動かなかったら、全身が映っている、または、体の各部位がわかるような恰好をしているか（もちろん服を着てても大丈夫）確認してください。</p>
+            </li>
+            <li>BobyTracking.cs の Debug 3D Position をオンにします。
+                <p>ここで動かなければ、Initial position で設定した初期位置から動いているか、Max speed setting の値が小さすぎないか、Distance setting の値があっているか（小さいよりは大きい方がいい）を確認してください。</p>
+            </li>
+        </ol>
+        <br>
+        <hr>
+        <h2 id="Q2"><b class="Q">Q.</b>なぜか頭と胴が動きません。</h2>
+        <hr class="dashed">
+        <p class="A"><b class="A">A.</b>もしかして Fast IK Fabic を有効にしたままにしてませんか？無効化してください。</p>
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color:silver; margin: 0; padding-top: 0.5em; padding-bottom: 0.5em;">
+        <p class="small" style="text-align: center">MIT License Copyright 2019 kumaS</p>
+        <p class="small" style="text-align: center">mail address kumaS.kumachan@gmail.com</p>
+    </div>
+</body>

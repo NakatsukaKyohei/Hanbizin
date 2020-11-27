@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FaceTracking ヘルプ</title>
+    <style>
+        @font-face {
+            font-family: "huiji";
+            src: url("Sub/HuiFontP29.ttf") format("truetype");
+        }
+        
+        body {
+            background-color: rgb(255, 245, 245)
+        }
+        
+        div.box {
+            font-family: "huiji";
+            font-size: 120%;
+            letter-spacing: 0.03em;
+            width: 40em;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 1em 2em;
+            border: solid medium silver;
+            background-color: white;
+        }
+        
+        div.box2 {
+            width: 25em;
+            margin-left: 2em;
+            margin-right: auto;
+            padding: 0.5em 0.5em;
+            border: solid medium silver;
+            background-color: rgb(245, 245, 245);
+        }
+        
+        p {
+            text-indent: 1em;
+            line-height: 1.2em;
+        }
+        
+        li {
+            line-height: 1.5em;
+        }
+        
+        p.A {
+            text-indent: 0;
+            line-height: 1.2em;
+        }
+        
+        a.inner {
+            text-decoration: none;
+        }
+        
+        .dashed {
+            border: thin dashed gray
+        }
+        
+        .small {
+            font-size: 80%
+        }
+        
+        .Q {
+            color: blue;
+        }
+        
+        b.A {
+            font-size: 160%;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>はじめに</h1>
+        <hr>
+        <p>ご支援ありがとうございます。作者のやる気が1上がりました。</p>
+        <p>それはさておきここには、場合別にQ&A形式でどう調整すればいいかを書いてあります。</p>
+        <p>一応 inspector 上で最低限わかるようにしている。
+            <span style="color:silver">…はず。</span>
+        </p>
+        <p>なお、導入のところはUnity初心者向けに書いてあるので、ある程度慣れてる方はすっ飛ばすことをおすすめします。</p>
+        <p>【初心者の方へ】Unityの基礎的なところはやや説明不足かもしれません。わからないところは調べてください。 Unityのコミニティーは活発なので、大抵調べれば出てきます。しかも日本語で。
+        </p>
+        <p>なお、このフォントが嫌な場合は、 Sub -> HuiFontP29 を消すなり Escape に移すなりすれば普通のフォントに戻ります。</p>
+        <br>
+        <hr class="dashed">
+        <h1>目次</h1>
+        <hr>
+        <div class="box2">
+            <ul>
+                <li><a href="#depend" class="inner">依存関係について</a></li>
+                <li><a href="#Q1" class="inner">Q.どうやって使うの？</a></li>
+                <li><a href="#Q2" class="inner">Q.再生したらUnityがクラッシュします。</a></li>
+                <li><a href="#Q3" class="inner">Q.動かないです。調整もわかりません。</a></li>
+                <li><a href="#Q4" class="inner">Q.!empty()とかいうメッセージが出て動かない。</a></li>
+                <li><a href="#Q5" class="inner">Q.検出できてないようですがどうすれば？</a></li>
+                <li><a href="#Q6" class="inner">Q.検出できてるみたいですけど動きません。</a></li>
+                <li><a href="#Q7" class="inner">Q.デバッグが大量に出てどうすればいいか困る。</a></li>
+                <li><a href="#Q8" class="inner">Q.頭がとんでもないところに行く。</a></li>
+                <li><a href="#Q9" class="inner">Q.頭がぐるぐる回る。</a></li>
+                <li><a href="#Q10" class="inner">Q.動く感度はいいけどブルブル震えてる。</a></li>
+                <li><a href="#Q11" class="inner">Q.Smoothなんとかってどうすればいいの？</a></li>
+                <li><a href="#Q12" class="inner">Q.胴の動きがおかしい。</a></li>
+                <li><a href="#Q13" class="inner">Q.目の開き具合がうまくいかない。</a></li>
+                <li><a href="#Q14" class="inner">Q.目玉が動かない。</a></li>
+                <li><a href="#Q15" class="inner">Q.Debug の Eye image で異常が発生する。</a></li>
+                <li><a href="#Q16" class="inner">Q.FaceTrackingの設定について。</a></li>
+                <li><a href="#Q17" class="inner">Q.ApplyToVRMの設定について。</a></li>
+                <li><a href="#Q18" class="inner">Q.ApplyToLive2Dの設定について。</a></li>
+                <li><a href="#Q19" class="inner">Q.席を離れると速度がかなり遅くなる。</a></li>
+                <li><a href="#Q20" class="inner">Q.やっぱり重いです。軽くなりませんか？</a></li>
+                <li><a href="#Q21" class="inner">Q.改造したいのですが。</a></li>
+                <li><a href="#Q22" class="inner">Q.著作権とかどうなってるの？</a></li>
+            </ul>
+        </div>
+        <hr class="dashed">
+        <h1>本編</h1>
+        <hr>
+        <h2 id="depend">依存関係</h2>
+        <hr>
+        <p>このパッケージには依存関係(導入してないと使えないもの)があります。</p>
+        <p>以下が一覧です。</p>
+        <ul>
+            <li>OpenCvSharp4 v4.4.0 @shimat</li>
+            <li>OpenCvSharpNative.unitypackage</li>
+            <li>DlibDotNet 19.20.0.20200725 @takuya-takeuchi</li>
+            <li>DlibDotNetNative.unitypackage</li>
+            <li>FastIK @ditzel</li>
+            <li>UniVRM @dwango</li>
+            <li>Cubism SDK for Unity @Cubism</li>
+            <li>Nuget for Unity @jwittner</li>
+        </ul>
+        <br>
+        <p>OpenCvSharp4 は Nuget for Unity で導入すると楽です。また、OpenCvSharp のネイティブdll が導入されないため、OpenCvSharpNative.unitypackage として同封しておきました。追加で、インポートしてください。</p>
+        <p><a href="Sub/import_nuget.html" target="_blank" rel="noopener" class="small">インポート方法</a></p>
+        <p><s>DlibDotNet は Nuget for Unity で導入したいところですが、自機で不具合が起きたので改造したものも配布しています。 どちらからでも問題ありません。安定するほうを使ってください。</s></p>
+        <p>製作者の方が、バグを直してくれました。20191202以降の物なら問題なく動きます。また、ネイティブのdllがNugetで入れれないため、DlibDotNetNative.unitypackageをインポートしてください。</p>
+        <p><b>また、どちらにせよ「Edit -> Project Settings... -> Player -> Other Settings -> Configuration」
+                    の Scripting Runtime Version を .NET 4.x Equivalentに、Scripting Backend を Mono に、
+                    Api Comparibility Level を .NET Standard 2.0 に設定してやる必要があります。
+                </b>
+        </p>
+        <p><a href="Sub/import_nuget.html" target="_blank" rel="noopener" class="small">インポート方法(Nuget)</a></p>
+        <p><a href="Sub/import_unitypackage.html" target="_blank" rel="noopener" class="small">インポート方法(私の配布)</a></p>
+        <p>FastIKは、VRMを使うときに必要になってくるもので、アセットストアから導入してください。</p>
+        <p><a href="Sub/import_assetstore.html" target="_blank" rel="noopener" class="small">インポート方法</a></p>
+        <p>UniVRM や Cubism SDK for Unity(live2D)の導入については皆さん調べてあると思いますし、 いくらでもやり方はネット上に転がっているので省略します。また、使うほうだけで大丈夫です。
+        </p>
+        <p>Nuget for Unity ですが、 OpenCVSharp4 と DlibDotNet を導入するためだけに使います。
+            <b>中身には一切影響しません</b>。アセットストアにあるやつで間違いありませんが、 更新されていないので手動アップデートしてやる必要があります。
+        </p>
+        <p><a href="Sub/import_assetstore.html" target="_blank" rel="noopener" class="small">インポート方法</a></p>
+        <br>
+        <hr>
+        <h2 id="Q1"><b class="Q">Q.</b>どうやって使うの？</h2>
+        <hr class="dashed">
+        <p>導入です。そんなもん言われんでもわかるという人は
+            <a href="#Q2" class="inner">ここ</a> まで飛んじゃってください。
+        </p>
+        <hr class="dashed">
+        <p class="A"><b class="A">A.</b>これから説明します…が、長いのでUnityに入れるまでと入れた後に分けます。</p>
+        <br>
+        <h3>Unityに入れる</h3>
+        <hr class="dashed">
+        <p>まず、依存関係のものを入れていきます。<a href="#depend" class="inner">やり方</a></p>
+        <p>入れ終わったら私のものも入れてください。<s>注意点としては<b>「kumaS Asset -> Sclipts -> FaceTracking」 の中にある ApplyTo~ は使うもののみにしてください。</b></p>
+        <span style="color:gray">たぶんエラー起きやすいです。</span></s>そのまま両方インポートして大丈夫になりました。
+            <p>この段階でエラーが大量に出ていれば、左上のタブの「Tools/kumaS Asset/Reset」を押してください。なければ、File -> Build Settings -> Player Settings -> Other Settings -> Configuration -> Scripting Define Symbols の中身を消し、「;」を入力してください。</p>
+            <br>
+            <br>
+            <h3>Unityで使う</h3>
+            <hr class="dashed">
+            <ol>
+                <li>空のオブジェクトをシーンに配置。</li>
+                <li>空のオブジェクトに「kumaS Asset -> Script -> FaceTracking」の FaceTracking をアタッチ。</li>
+                <li>さらに ApplyTo~ をアタッチ。</li>
+                <li>さらに Video をアタッチ。（なお、Videoはシーン上に一つのみにしてください。）</li>
+                <li>(VRMの場合) FastIK の FastIKFabic をモデルの首のボーンにアタッチ。Target に2.の空のオブジェクトを設定。</li>
+                <li>inspector で値をいい感じに設定。設定項目の意味がわからなかったら、google翻訳にでもかけておけばわかるはず。</pli>
+            </ol>
+            <p>pass for なんたらのファイルはここが最新版です。</p>
+            <p><a href="https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_default.xml" target="_blank" rel="noopener" class="inner">OpenCv</a></p>
+            <p><a href="http://dlib.net/files/shape_predictor_5_face_landmarks.dat.bz2" class="inner">5_face_landmarks（クリックするとダウンロード）</a></p>
+            <p><a href="http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2" class="inner">68_face_landmarks（クリックするとダウンロード）</a></p>
+            <p>完了！</p>
+            <p><s>あれ、分けるほど多くなかった。</s></p>
+            <br>
+            <hr>
+            <h2 id="Q2"><b class="Q">Q.</b>再生モードにしたらUnityがクラッシュするのですが？</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.仕様です。</b></p>
+            <p>というのは半分冗談で、メモリをかなりハードに使っているので特に負荷のかかる起動時はどうしても不安定となります。<s> 成功するまでUnity立ち上げ直して頑張ってください。</s></p>
+            <p>unsafe をオフにしてください。かなり確率が減るはずです。</p>
+            <p style="color:silver">
+                メガネかけてる人は開始時はメガネ外してみるとクラッシュしにくくなるぞ。<s>(わけわからん)</s>
+            </p>
+            <p>エラーの詳細を知りたい方は「C -> ユーザー -> (ユーザー名) -> Temp -> Unity」の中にログがあります。</p>
+            <p style="color:silver">
+                これでもC#側で対処できるものはしたんだよ…。ネイティブのコードは複雑すぎてわからんかった(泣)。
+            </p>
+            <br>
+            <hr>
+            <h2 id="Q3"><b class="Q">Q.</b>再生してみたけどちゃんと動かん…調整もわからん…</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>一にデバッグ、二にデバッグ、三にデバッグです。とにかくどういう値を吐き出しているか調べるのが重要です。</p>
+            <p>まずは再生をやめた時のコンソールを見てみましょう。そうすると、「suc = *, fail = *: *」というものが見つかるはずです。 sucは顔の検出に成功したフレーム数で、:の後ろのやつは検出成功率です。どうですか？
+            </p>
+            <br>
+            <hr>
+            <h2 id="Q4"><b class="Q">Q.</b>!empty()というメッセージが出て、なにも動きませんが…?</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>OpenCvのカスケードファイルや、Dlibのlandmarkファイルへのパス名がおかしいです。日本語が含まれているのもダメなので、パス名に日本語の含まれていないところにファイルを移してもう一度やってみてください。</p>
+            <br>
+            <hr>
+            <h2 id="Q5"><b class="Q">Q.</b>どうやらまともに検出できていないみたいですが？</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>それはあなたの顔が…うわ！何をする！ｱ----ｯｯｯ!!!</p>
+            <p>偽物は消しました。ご安心を。主に考えられるのは、全体の光量が少なすぎ/多すぎではありませんか？ もしくは、背景色が肌の色と似ていませんか？というところです。この二つは、Debug options の Face Image をオンにすると確かめられます。
+            </p>
+            <p><b>※注：Face image のデバッグを空のゲームオブジェクトで実行すると失敗します。Planeにアタッチして確かめましょう。</b></p>
+            <br>
+            <hr>
+            <h2 id="Q6"><b class="Q">Q.</b>検出はできているみたいだけど動きません。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>Dobug options の Positon and Rotation をオンにしてどのような値が吐き出されているか確認しましょう。</p>
+            <p>大抵の原因は、安定した推測値が中心から離れている((0,0,0)から遠い)、または、 speed limit 系が低すぎるのどちらかです。</p>
+            <p>OpenCV・Dlib5 の時はそれに加え、感度が大きく違うというのも加わります。</p>
+            <p>感度が大きく異なる場合は Scale を、 z の position が大きく異なる時は z_offset を調整して下さい。</p>
+            <p>安定した推測値が中心から離れている場合は、安定した推測値を Position center に入力すればよいです。</p>
+            <br>
+            <p><b>Dlib68・Mixed の時、私と頭の立体座標が異なるためうまく推定できないというケースがあります。</b> (ほんとは皆やったほうがいいのですが)最終手段として頭の立体座標をとるというのも考えておいたほうがいいかもしれません。
+                <b style="color:red">なお私はレゴを頭にぶっ刺して測りました。</b>
+            </p>
+            <p><a href="Sub/head_setting.html" target="_blank" rel="noopener">頭の位置を測定したらここのように設定してください</a></p>
+            <br>
+            <hr>
+            <h2 id="Q7"><b class="Q">Q.</b>デバッグが大量に出ててどうすればいいかわかりません。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>そういう時は log to file をオンにしましょう。すべてのデバッグデータをUnityのプロジェクト直下に .csv 形式で書き出してくれます。なお、できたファイルの中身をここに記しておきます。</p>
+            <ul>
+                <li>FPS_LOG ・・・FPSが書き込まれています。</li>
+                <li>POS_ROT_LOG ・・・推定した Position と Rotation が書き込まれています。</li>
+                <li>EYE_ROT_LOG ・・・推定した目の Rotation が書き込まれています。</li>
+                <li>EYE_RATIO_LOG ・・・推定された目の縦横比が書き込まれています。(目の開き具合)</li>
+                <li>FINAL_LOG ・・・いろいろ処理された後の最終的な値が書き込まれています。</li>
+            </ul>
+            <p>これらを分析するときは、おかしな値が入っていることがあるので、(Excelの場合だと)フィルターで除去してやったほうがいいです。それから、線グラフにしてやると分析しやすいです。</p>
+            <p>Dlib68・Mixed の推定の特性上 z が-180付近になることが多々あり、それに伴い Position がよく符号逆転してます。そのため、グラフにする前にデータを加工したほうが良いです。</p>
+            <br>
+            <hr>
+            <h2 id="Q8"><b class="Q">Q.</b>頭がとんでもないとこにふっ飛ぶんですが!?</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>Positon offset と Position range (radius) を見直しましょう。</p>
+            <br>
+            <hr>
+            <h2 id="Q9"><b class="Q">Q.</b>頭がぐるぐる回ります。 Target model の設定をどうすればいいかわかりません。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>Target model の設定をしましょう。最終的な位置の値は推定された値に Traget model の位置の値とオフセットの値を足したものとなります。 VRM、Live2D 共にモデルの一番上のオブジェクトを指定すればたいてい大丈夫です。</p>
+            <br>
+            <hr>
+            <h2 id="Q10"><b class="Q">Q.</b>動く感度はいいのだけどなんかむっちゃ震えてる!?</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>speed limit 系が高すぎるか Smoothness of movement が低すぎるかのどちらかです。</p>
+            <p>speed limit 系を低くしすぎると(特に速い動きだと)動かなくなり、 Smoothness of movement が高すぎると反応が遅くなります。</p>
+            <br>
+            <hr>
+            <h2 id="Q11"><b class="Q">Q.</b>Smoothなんとかってどうすればいいの？</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>まず、Smoothig methodの方はどちらでもいいです。どちらも似たようなものなので。詳しく知りたかったら、ググれば出てきます。LPFはローパスフィルタです。</p>
+            <p>Smoothness of movement の適性の値は初期値付近(Average:16、LPF:0.85)です。Averageは4未満、LPFは0.5未満にするとあまり意味がなくなるので気をつけてください。</p>
+            <br>
+            <hr>
+            <h2 id="Q12"><b class="Q">Q.</b>あの…胴がぐるんぐるん回っているのですが…(VRMのみ)</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>頭の位置がちょっと低いです。 Psition center か Position offset を調整しましょう。</p>
+            <br>
+            <hr>
+            <h2 id="Q13"><b class="Q">Q.</b>目の開き具合がおかしいのですが。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>Debug options の Eye openness ratio を見て、目を開けているときの値を Eye ratio high に、目を閉じているときの値を Eye ratop low に入れるとよくなります。</p>
+            <p>また、.csvで出力させたEye openness ratio (EYE_RATIO_LOG内)を折れ線グラフにし、8移動平均線を追加するとどのような値を入れればいいのかわかりやすいです。</p>
+            <br>
+            <hr>
+            <h2 id="Q14"><b class="Q">Q.</b>目玉がどうやら動いていないみたいです。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>メガネをかけている場合諦めてください。Dlibを使ってメガネをかけている人の特徴点の学習をさせるという解決策もありますが。(機械学習です。)</p>
+            <p>そうでなければ、 Eye center ratio の値を分析してください。私の場合は最大で0.1ぐらいしか動きませんでした。</p>
+            <p>全く変な値が出ている場合は、 Debug options の Eye image をオンにして目の周りの画像がどう撮れているか、また、どのようなところが検出されているか確かめてください。</p>
+            <p>よさそうな値が出ている場合は eye rotation ensitivity の値を大きくしてください。大きく動くようになります。</p>
+            <br>
+            <hr>
+            <h2 id="Q15"><b class="Q">Q.</b>Debug の Eye image をオンにして再生したら Unity が落ちた/無茶苦茶重くなった!</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>設定が間違っています。</p>
+            <p>Copy Cube には生成した素の Cube を、 Parents には空の GameObject を入れてください。 Cube の位置はどうでもいいですが、 Parents は以下の位置に配置しておくことを勧めます。</p>
+            <ul>
+                <li>Left color (0, 0, 0)</li>
+                <li>Left gray (0, 0, 1)</li>
+                <li>Right color (-50, 0, 0)</li>
+                <li>Right gray (-50, 0, 1)</li>
+            </ul>
+            <p>なお、生成されたものは Parents の子として生成されるので、要らない画像は Parents に設定した GameObject を非アクティべートにすることで見えなくすることができます。</p>
+            <br>
+            <hr>
+            <h2 id="Q16"><b class="Q">Q.</b>FaceTrackingの設定項目多いけど、やっぱり知りたいです。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>ここに書くと長くなるので、<a href="Sub/facetracking_setting.html" target="_blank" rel="noopener">こちら</a>に書きました。</p>
+            <h2 id="Q17"><b class="Q">Q.</b>ApplyToVRMの二つ設定するところってなにを設定すればいいの？</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>目のボーンです。具体的には Rotation をいじって目玉がいい感じにぐりんぐりん動くところです。<span style="color:silver">(左右間違えないでね)</span></p>
+            <br>
+            <hr>
+            <h2 id="Q18"><b class="Q">Q.</b>ApplyToLive2Dって設定項目がずらっと並んでいるけど何を設定すればいいの？</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>パラメーターの名前です。 Inspector に書いてある役割のものを設定してください。シーン上にあるやつをドラッグ＆ドロップしても設定できます。</p>
+            <br>
+            <hr>
+            <h2 id="Q19"><b class="Q">Q.</b>しばらく席を離れていたら遅くなりました。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.有用なバグです。</b></p>
+            <p>原因はわかりませんが、しばらく検出されないと速度が低下するようです。同時にCPU使用率も減るため良いのではないでしょうか？<span style="color:silver"> (教えて!詳しい人!)</span></p>
+            <p>なお、検出がされ始めると30秒から1分ぐらいで元の速さに戻るので安心してください。</p>
+            <br>
+            <hr>
+            <h2 id="Q20"><b class="Q">Q.</b>やっぱりこのプログラム重いです。もっと軽くなりませんか？</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>最適化可能です。調整するパラメータは Work threads と Resolution ついでに unsafe です。</p>
+            <p>Work threads は処理を何個に分けてやるかということで、基本数字が大きいほどパフォーマンスが上がりますが、大きすぎるとパフォーマンスが落ちます。だいたいCPUのスレッド数が一番パフォーマンスが出ます。</p>
+            <p>Resolution は画像を何分の一にして処理するのかというので、数字が大きいほど軽くなります。しかし、大きすぎると正確さが落ちます。</p>
+            <p>unsafe は並列化しちゃまずいところも並列化するかということです。ボトルネックとなっているので選択可能としました。警告が出ますが、まあそういうことです。立ち上げに成功したら、ほぼ落ちることはありません。なお、ポインタではありません。</p>
+            <br>
+            <hr>
+            <h2 id="Q21"><b class="Q">Q.</b>これには我慢ならん！俺のほうが凄いのができる！改造させろ！…いいのか？</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b>どうぞご自由に改造してください。というかどのように良くなるか見てみたいです。著作権とかのはこの次に書いてあるのでそちらをご覧ください。</p>
+            <p>改造をしやすいように私の作った物の説明を軽くします。</p>
+            <p>このアセットは大きく FaceTracking 部分と Apply 部分に分かれています。 FaceTraking は Webカメラから位置・回転・目の開き具合・目玉の位置を推定し、その値を保持します。 そして、 Apply はその FaceTracking の情報を読み取り、それぞれの形式に合うように変換します。
+            </p>
+            <p>なお、 FaceTracking 部分についてはかなりやばいことになっているのでいじらないことを推奨します。(腕に自信があればどうぞご自由に改造してください)</p>
+            <p>で、その FaceTracking 部分の利用法を説明します。</p>
+            <p>クラス名は FaceTracking です。まんまです。で、利用できるのが、</p>
+            <ul>
+                <li>Vector3 Position ・・・ 推定された頭の位置。</li>
+                <li>Quaternion Rotation ・・・ 推定された頭の回転。</li>
+                <li>float LeftEyeCloseness ・・・ 推定された左目の閉じ具合。0～1。0が開き。</li>
+                <li>float RightEyeCloseness ・・・ 推定された右目の閉じ具合。0～1。0が開き。</li>
+                <li>Vector3 LeftEyeRotation ・・・ 推定された左目の目玉の回転。</li>
+                <li>Vector3 RightEyeRotation ・・・ 推定された右目の目玉の回転。</li>
+            </ul>
+            <p>ここらへんです。実際に使う際は、 FaceTracking を参照してそのプロパティを読み取って使ってください。あと、これらの更新タイミングは Update() の時です。</p>
+            <br>
+            <hr>
+            <h2 id="Q22"><b class="Q">Q.</b>著作権とかはどうなってるの？怖い。</h2>
+            <hr class="dashed">
+            <p class="A"><b class="A">A.</b><b>私の作ったところに関してはMITライセンスで配布しています。</b></p>
+            <p>要は何しても自由！個人・商用可能！連絡必要なし！改造OK！再配布OK！<b>ただし、制作者には敬意を持ってね？あと、私はこれつくったけど責任は一切取らないからね？</b>というものです。(再配布するときはちょっと声かけてほしいとも思うけど)</p>
+            <p><b class="A" style="line-height: 1.3em">あと、これはあくまで私の範囲のところだけなので、依存しているもの DlibDotNet とか OpenCvSharp4 とか FastIK とかはそれぞれ参照をしてください。</b></p>
+            <p>そのことについても私は関知しないので悪しからず。</p>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color:silver; margin: 0; padding-top: 0.5em; padding-bottom: 0.5em;">
+        <p class="small" style="text-align: center">MIT License Copyright 2019 kumaS</p>
+        <p class="small" style="text-align: center">mail address kumaS.kumachan@gmail.com</p>
+    </div>
+</body>
+
+</html>

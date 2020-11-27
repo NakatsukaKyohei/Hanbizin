@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>頭の3D位置の設定</title>
+    <style>
+        @font-face {
+            font-family: "huiji";
+            src: url("HuiFontP29.ttf") format("truetype");
+        }
+        
+        body {
+            background-color: rgb(255, 245, 245)
+        }
+        
+        div.box {
+            font-family: "huiji";
+            font-size: 120%;
+            letter-spacing: 0.03em;
+            width: 40em;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 1em 2em;
+            border: solid medium silver;
+            background-color: white;
+        }
+        
+        div.box2 {
+            background-color: rgb(218, 218, 218);
+        }
+        
+        p {
+            text-indent: 1em;
+            line-height: 1.2em;
+        }
+        
+        a {
+            font-size: 100%;
+            display: block;
+            text-align: center;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    </style>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</head>
+
+<body>
+    <div class="box">
+        <p>FaceTracking_UnityEvents.cs の217～234行目付近に以下のようなコードがあると思います。</p>
+        <div class="box2">
+            <pre><code class="prettyprint lang-cs">
+    //---------------------------------------------------------------------------------------
+    /// &lt;summary&gt;
+    /// 3Dモデルの点を設定
+    /// &lt;/summary&gt;
+    private void SetmodelPoints()
+    {
+        var model_points = new Point3f[8];
+        model_points[0] = new Point3f(0.0f, 0.03f, 0.11f);
+        model_points[1] = new Point3f(0.0f, -0.06f, 0.08f);
+        model_points[2] = new Point3f(-0.048f, 0.07f, 0.066f);
+        model_points[3] = new Point3f(0.048f, 0.07f, 0.066f);
+        model_points[4] = new Point3f(-0.03f, -0.007f, 0.088f);
+        model_points[5] = new Point3f(0.03f, -0.007f, 0.088f);
+        model_points[6] = new Point3f(-0.015f, 0.07f, 0.08f);
+        model_points[7] = new Point3f(0.015f, 0.07f, 0.08f);
+                
+        model_points_mat = new Mat(model_points.Length, 1, MatType.CV_32FC3, model_points);
+    }
+            </code></pre>
+        </div>
+
+        <p>これの(*f, *f, *f)に座標を入力していきます。<span style="color:red">「f」忘れないでください。</span> (順番はもちろん(x,y,z))</p>
+        <p>単位は m で、xは右が正、yは上が正、zは前が正です。原点は両耳の一番下のところの中点です。(色々試した結果ここが頭の回転の中心となってた。)</p>
+        <p>それでは上から順に</p>
+        <ul>
+            <li>鼻の先</li>
+            <li>あご</li>
+            <li>左目の外側の端</li>
+            <li>右目の外側の端</li>
+            <li>唇の左端</li>
+            <li>唇の右端</li>
+            <li>左目の内側の端</li>
+            <li>右目の内側の端</li>
+        </ul>
+        <p>です。もしさらに悪化したらこれ見て直してってください。</p>
+        <a href="#" onClick="window.close();">閉じる</a>
+    </div>
+</body>

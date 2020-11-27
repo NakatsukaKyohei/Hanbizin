@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FaceTracking 設定項目</title>
+    <style>
+        @font-face {
+            font-family: "huiji";
+            src: url("HuiFontP29.ttf") format("truetype");
+        }
+        
+        body {
+            background-color: rgb(255, 245, 245)
+        }
+        
+        div.box {
+            font-family: "huiji";
+            font-size: 120%;
+            letter-spacing: 0.03em;
+            width: 40em;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 1em 2em;
+            border: solid medium silver;
+            background-color: white;
+        }
+        
+        p {
+            text-indent: 1em;
+            line-height: 1.2em;
+        }
+        
+        li {
+            line-height: 1.5em;
+        }
+        
+        .dashed {
+            border: thin dashed gray
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <p>FaceTracking.cs の設定項目一覧。</p>
+        <ul>
+            <li>Detecting mode settings ・・・ どの顔検出モードを使うかの設定。
+                <ul>
+                    <li>Mode ・・・ 顔の位置を特定するのに使うものを設定。
+                        <ul>
+                            <li>OpenCV ・・・ 軽いが機能も少ない。</li>
+                            <li>Dlib5 ・・・ 精度はいいが、機能が少ない。</li>
+                            <li>Dlib68 ・・・ <span style="color: red;">オススメ</span> 精度がいい。機能多い。</li>
+                            <li>Mixed ・・・ OpenCV・Dlib68のいいとこどり……と思われたが、検出率はOpenCV。</li>
+                        </ul>
+                    </li>
+                    <li>Blink tracking ・・・ 瞬きを検知するか。</li>
+                    <li>Eye tracking ・・・ 目玉の動きを検知するか。（ごめんなさい。精度良くないです。）</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Debug settings ・・・ デバッグの設定。
+                <ul>
+                    <li>Write log to file ・・・ 検出した Position ・ Rotation などをcsvファイルとしてログファイルを残す。ファイルは、Asset/DebugData 以下にできる。</li>
+                    <li>Face image ・・・ Dlib系統の場合、検出された特徴点に円と数字、OpenCVの場合、検出された顔に四角を、カメラの映像に上書きし、このスクリプトがアタッチされた物の Texture をその画像にします。これをオンにするときは Plane につけるのを推奨します。</li>
+                    <li>Position and Rotation ・・・ 推定された Position ・ Rotation を Unity のログに流します。</li>
+                    <li>fps ・・・ この fps を Unity のログに流します。Unity での fps とこの fps は違います。2つの数字が出ますが、後者のほうが正確です。</li>
+                    <li>Eye clossness value ・・・ 目がどれだけ閉じているかの値を Unity のログに流します。0が開いている。1が閉じている。</li>
+                    <li>Eye openness ratio ・・・ 目縦横比を Unity のログに流します。数値が大きいほど開いている。</li>
+                    <li>Eye center ratio ・・・ 目玉の中心がどこにあるかを Unity のログに流します。内側にあるほど数値は小さい。</li>
+                    <li>Eye image ・・・ 目がどのように検出されたか表示します。Cube を生成し、色をピクセルの色に変えて……と無理やりやっています。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Reference settings ・・・ 参照を設定します。
+                <ul>
+                    <li>Pass for … ・・・ それぞれに合ったファイルへのパスを入力します。パス名に日本語が含まれていると不具合が起きることがあります。</li>
+                    <li>Target model ・・・ 体を移動させた等、動きを反映させたいモデルへの Transform を設定します。（この設定で動きが反映されるわけではありません。）</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Performance settings ・・・ パフォーマンスに関する設定をします。
+                <ul>
+                    <li>unsafe ・・・ <span style="color: red;">非推奨</span>スレッド安全を無視します。</li>
+                    <li>fps limit ・・・ fps の平均値を設定します。マシンのスペックが足りないと、この数値に届かないときもあります。</li>
+                    <li>Work threads ・・・ 何スレッド使用するか設定します。最適設定は、CPUの(コア数またはスレッド数) + 1 です。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Motion settings ・・・ 動きに関する設定をします。
+                <ul>
+                    <li>Smoothing method ・・・ 動きを滑らかにする方法を設定をします。どちらもあまり変わらないけど、Average のほうがオススメ。</li>
+                    <li>Smoothness of movement ・・・ 値が大きいほど滑らかになるが、動きの反映が遅くなる。</li>
+                    <li>Position speed limit ・・・ Position の制限速度を設定します。値が小さすぎると動かなくなり、大きすぎるとふっとぶ可能性が増します。</li>
+                    <li>Rotation speed limit ・・・ Rotation の制限速度を設定します。値が小さすぎると動かなくなり、大きすぎるとふっとぶ可能性が増します。</li>
+                    <li>Position range (radius) ・・・ Position の動ける範囲（球）を設定します。値が小さすぎると動かなくなり、大きすぎるとふっとぶ可能性が増します。</li>
+                    <li>Rotation range ・・・ Rotation の範囲（絶対値）を設定します。値が小さすぎると動かなくなり、大きすぎるとふっとぶ可能性が増します。</li>
+                    <li>Position offset ・・・ モデルの元の Position と頭の Positon の差を入力。要は頭の位置。</li>
+                    <li>Rotation offset ・・・ Rotation をどれだけずらすか。</li>
+                </ul>
+            </li>
+            <hr class="dashed">
+            <li>Detecting parameter setting ・・・ 顔の推定をするときのパラメーターを設定します。
+                <ul>
+                    <li>Position center ・・・ 中心座標を較正します。シーン再生中に、カメラの正面（中心としたいところ）で静止して R を押したときのここの値を設定するとよいです。</li>
+                    <li>Position scale ・・・ Position の値をこの値倍します。</li>
+                    <li>Rotation scale ・・・ Rotation の値をこの値倍します。</li>
+                    <li>Z scale ・・・ z 軸の値をさらにこの値倍します。</li>
+                    <li>Z offset ・・・ Z の値のオフセット値を設定します。</li>
+                    <li>Eye ratio high ・・・ 目を開けているときの Eye openness ratio (debug) の値を設定します。</li>
+                    <li>Eye ratio low ・・・ 目を閉じているときの Eye openness ratio (debug) の値を設定します。</li>
+                    <li>Eye center ・・・ 目が正面向いている状態の、Eye center ratio (debug) の値を設定します。</li>
+                    <li>Left eye range high ・・・ 左目の Rotation の範囲の最大値を設定します。</li>
+                    <li>Left eye range low ・・・ 左目の Rotation の範囲の最小値を設定します。</li>
+                    <li>Right eye range high ・・・ 右目の Rotation の範囲の最大値を設定します。</li>
+                    <li>Right eye range low ・・・ 右目の Rotation の範囲の最大値を設定します。</li>
+                    <li>Left eye rotation offset ・・・ 左目の Rotation のオフセット値を設定します。</li>
+                    <li>Right eye rotation offset ・・・ 右目の Rotation のオフセット値を設定します。</li>
+                    <li>Left eye rotation sensitivity ・・・　左目の Rotation をこの値倍します。</li>
+                    <li>Right eye rotation sensitivity ・・・　右目の Rotation をこの値倍します。</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color:silver; margin: 0; padding-top: 0.5em; padding-bottom: 0.5em;">
+        <p class="small" style="text-align: center">MIT License Copyright 2019 kumaS</p>
+        <p class="small" style="text-align: center">mail address kumaS.kumachan@gmail.com</p>
+    </div>
+</body>
+
+</html>

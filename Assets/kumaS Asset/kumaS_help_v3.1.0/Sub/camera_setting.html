@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Camera angle の設定方法</title>
+    <style>
+        @font-face {
+            font-family: "huiji";
+            src: url("HuiFontP29.ttf") format("truetype");
+        }
+        
+        body {
+            background-color: rgb(255, 245, 245)
+        }
+        
+        div.box {
+            font-family: "huiji";
+            font-size: 120%;
+            letter-spacing: 0.03em;
+            width: 40em;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 1em 2em;
+            border: solid medium silver;
+            background-color: white;
+        }
+        
+        ol li {
+            line-height: 1.2em;
+        }
+        
+        a.close {
+            font-size: 100%;
+            display: block;
+            text-align: center;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        
+        img {
+            width: 100%
+        }
+        
+        div.box2 {
+            background-color: rgb(218, 218, 218);
+        }
+    </style>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</head>
+
+<body>
+    <div class="box">
+        <img src="Picture/Camera.png">
+        <p>上の図の、x,yを測定してください。そして、以下のコードを Unity で実行してください。</p>
+        <div class="box2">
+            <pre><code class="prettyprint lang-cs">
+    void Start()
+    {
+        //ここで、x,yは測定した値に置き換える。
+        Debug.Log(Mathf.Atan2(y, x) * Mathf.Rad2Deg);
+    }
+    </code></pre>
+        </div>
+        <p>そして、Unity のログで出た値を Camera angle に入力してください。</p>
+    </div>
+</body>
+
+</html>

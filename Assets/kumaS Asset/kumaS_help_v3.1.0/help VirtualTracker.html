@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>VirtualTracker ヘルプ</title>
+    <style>
+        @font-face {
+            font-family: "huiji";
+            src: url("Sub/HuiFontP29.ttf") format("truetype");
+        }
+        
+        body {
+            background-color: rgb(255, 245, 245)
+        }
+        
+        div.box {
+            font-family: "huiji";
+            font-size: 120%;
+            letter-spacing: 0.03em;
+            width: 40em;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 1em 2em;
+            border: solid medium silver;
+            background-color: white;
+        }
+        
+        div.box2 {
+            width: 25em;
+            margin-left: 2em;
+            margin-right: auto;
+            padding: 0.5em 0.5em;
+            border: solid medium silver;
+            background-color: rgb(245, 245, 245);
+        }
+        
+        p {
+            text-indent: 1em;
+            line-height: 1.2em;
+        }
+        
+        li {
+            line-height: 1.5em;
+        }
+        
+        p.A {
+            text-indent: 0;
+            line-height: 1.2em;
+        }
+        
+        a.inner {
+            text-decoration: none;
+        }
+        
+        .dashed {
+            border: thin dashed gray
+        }
+        
+        .small {
+            font-size: 80%
+        }
+        
+        .Q {
+            color: blue;
+        }
+        
+        b.A {
+            font-size: 160%;
+            color: red;
+        }
+        
+        table {
+            border-collapse: collapse;
+        }
+        
+        td {
+            border: solid 1px;
+            padding: 0.5em;
+        }
+    </style>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</head>
+
+<body>
+    <div class="box">
+        <h1>はじめに</h1>
+        <hr>
+        <p>ご支援ありがとうございます。作者のやる気が1上がりました。</p>
+        <p>それはさておきここには、BodyTrackingを仮想トラッカーとして利用する方法を書いています。</p>
+        <p>なお、このフォントが嫌な場合は、 Sub -> HuiFontP29 を消すなり Escape に移すなりすれば普通のフォントに戻ります。</p>
+        <br>
+        <hr class="dashed">
+        <h1>目次</h1>
+        <hr>
+        <div class="box2">
+            <ul>
+                <li><a href="#depend" class="inner">依存関係について</a></li>
+                <li><a href="#intoroVMT" class="inner">VMT導入方法</a></li>
+                <li><a href="#intoroVMCP" class="inner">VMC Protocol 導入方法</a></li>
+                <li><a href="#siyou" class="inner">トラッカーの仕様</a></li>
+                <li><a href="#VMCP" class="inner">VMC Protocol の仕様</a></li>
+            </ul>
+        </div>
+        <hr class="dashed">
+        <h1>本編</h1>
+        <hr>
+        <h2 id="depend">依存関係</h2>
+        <hr>
+        <p>このパッケージには依存関係(導入してないと使えないもの)があります。</p>
+        <p>以下が一覧です。</p>
+        <ul>
+            <li>Visual Studio 2015 の Visual C++ 再頒布可能パッケージ</li>
+            <li>OpenCvSharp4 v4.4.0 @shimat</li>
+            <li>OpenCvSharpNative.unitypackage(体の位置を送るとき)</li>
+            <li>TensorFlowLiteNative.unitypackage(体の位置を送るとき)</li>
+            <li>DlibDotNet 19.20.0.20200725 @takuya-takeuchi（顔を送るとき）</li>
+            <li>DlibDotNetNative.unitypackage（顔を送るとき）</li>
+            <li>Nuget for Unity @jwittner</li>
+            <li>uOSC @hecomi</li>
+            <li>VirtualMotionTracker @gpsnmeajp(VMTモード時)</li>
+            <li>SteamVR @Valve(VMTモード時)</li>
+        </ul>
+        <p>Visual Studio 2015 の Visual C++ 再頒布可能パッケージは、<a href="https://www.microsoft.com/ja-jp/download/details.aspx?id=48145" target="_blank" rel="noopener" class="small">こちら</a>からダウンロード、インストールしてください。</p>
+        <p>OpenCvSharp4 は Nuget for Unity で導入すると楽です。また、OpenCvSharp のネイティブdll が導入されないため、OpenCvSharpNative.unitypackage として同封しておきました。追加で、インポートしてください。</p>
+        <p><a href="Sub/import_nuget.html" target="_blank" rel="noopener" class="small">インポート方法</a></p>
+        <p>Nuget for Unity ですが、 OpenCVSharp4 を導入するためだけに使います。
+            <b>中身には一切影響しません</b>。アセットストアにあるやつで間違いありませんが、 更新されていないので手動アップデートしてやる必要があります。
+        </p>
+        <p>uOCSは<a href="https://github.com/hecomi/uOSC/releases" target="_blank" rel="noopener" class="small">こちら</a>からダウンロードしてください。</p>
+        <p>VirtualMotionTrackerは<a href="https://github.com/gpsnmeajp/VirtualMotionTracker/releases" target="_blank" rel="noopener" class="small">こちら</a>からダウンロードしてください。 開発者様が使い方について
+            <a href="https://github.com/gpsnmeajp/VirtualMotionTracker/blob/master/docs/note.md" target="_blank" rel="noopener" class="small">こちら</a>で説明していますが、 私の方からも使い方は説明します。
+        </p>
+        <p>SteamVRはSteamのVRです。Steamでインストールしてください。（というよりそこで使うものなのでインストールしてあると思いますが。）
+        </p>
+        <br>
+        <hr>
+        <h2 id="intoroVNT">VMT導入方法</h2>
+        <hr class="dashed">
+        <p>① VirtualMortionTracker を導入する。</p>
+        <p>② <a href="help BodyTracking.html" target="_blank" rel="noopener" class="small">BodyTracking</a>の設定をする。</p>
+        <p>③ uOSC をインポートする。</p>
+        <p>④ BodyTracking のオブジェクトからApplyToBodyを取り除き、VirtualTracker をアタッチする。なお、ApplyToBodyは取り除かなくても問題ありません。</p>
+        <p>⑤ SteamVR が起動した状態でシーンを再生すると仮想トラッカーが SteamVR の方へ送られます。</p>
+        <br>
+        <hr>
+        <h3>VirtualMotionTrackerの導入</h3>
+        <hr class="dashed">
+        <P>まずはVirtualMotionTrackerをダウンロード、ちゃんとしたところへ解凍してください。</P>
+        <p>次に、「vmt_manager/vmt_manager.exe」を起動してください。起動させるのに SteamVR が必要です。 HMDがある方は接続してから起動してください。無い方は「C:\Program Files (x86)\ Steam\ config\ steamvr.vrsettings」内で
+        </p>
+        <div class="box2">
+            <pre><code class="prettyprint lang-json">
+{
+    "steamvr" : {
+        "activateMultipleDrivers" : true,
+        "forcedDriver": "null"
+    }
+}
+            </code></pre>
+        </div>
+        <p>に変えるか追記してください。さらに、「C:\Program Files (x86)\ Steam\ steamapps\ common\ SteamVR\ drivers\ null\ resources\ settings\ default.vrsettings」内で</p>
+        <div class="box2">
+            <pre><code class="prettyprint lang-json">
+{
+    "driver_null" : {
+        "enable" : true,
+        "serialNumber" : "Null Serial Number", 
+        "modelNumber" : "Null Model Number",
+        "windowX" : 0,
+        "windowY" : 0,
+        "windowWidth" : 1920,
+        "windowHeight" : 1080,
+        "renderWidth" : 1920,
+        "renderHeight" : 1060,
+        "secondsFromVsyncToPhotons" : 0.01111111,
+        "displayFrequency" : 60.0
+    }
+}
+            </code></pre>
+        </div>
+        <p>に変えるか追記してください。詳しくは<a href="https://shop-0761.hatenablog.com/entry/2018/01/08/034418" target="_blank" rel="noopener" class="small">こちら</a>のほうから調べてみてください。</p>
+        <br>
+        <p> vmt_manager.exe を起動したら、install ボタンを押してインストールしてください。 そうすると、SteamVR の再起動を要求されるので再起動してください。</p>
+        <p> vmt_manager.exe をまた起動し、 RoomSetup の Set RoomMatrix を押し、ルーム座標を登録してください。</p>
+        <p>以上で VirtualMotionTracker の導入は終了です。</p>
+        <br>
+        <hr>
+        <h2 id="intoroVNT">VMT導入方法</h2>
+        <hr class="dashed">
+        <p>① <a href="help BodyTracking.html" target="_blank" rel="noopener" class="small">BodyTracking</a>または<a href="help FaceTracking.html" target="_blank" rel="noopener" class="small">FaceTracking</a>もしくは両方の設定をする。</p>
+        <p>② uOSC をインポートする。</p>
+        <p>③ 空のオブジェクトにVirtualTracker をアタッチする。</p>
+        <p>④ VirtualTracker を適切に設定する。</p>
+        <br>
+        <hr>
+        <h2 id="siyou">仮想トラッカーの仕様</h2>
+        <hr class="dashed">
+        <p>仮想トラッカーの順番は（たまたま順番が書いてあったのを見つけた）バーチャルキャストを元にした以下の通りです。</p>
+        <table>
+            <tr>
+                <td>インデックス</td>
+                <td>場所</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>右足の甲</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>左足の甲</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>おなか</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>右ひじ</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>左ひじ</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>右ひざ</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>左ひざ</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>頭</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>右手</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>左手</td>
+            </tr>
+        </table>
+        <br>
+        <p>各トラッカーのデフォルトの向きは以下の通りです。青矢印が前で緑矢印が上です。</p>
+        <br>
+        <hr>
+        <h3>0:右足の甲</h3>
+        <img src="Sub/Picture/Tracker0.png" width="100%">
+        <br>
+        <hr>
+        <h3>1:左足の甲</h3>
+        <img src="Sub/Picture/Tracker1.png" width="100%">
+        <br>
+        <hr>
+        <h3>2:おなか</h3>
+        <img src="Sub/Picture/Tracker2.png" width="100%">
+        <br>
+        <hr>
+        <h3>3:右ひじ</h3>
+        <img src="Sub/Picture/Tracker3.png" width="100%">
+        <br>
+        <hr>
+        <h3>4:左ひじ</h3>
+        <img src="Sub/Picture/Tracker4.png" width="100%">
+        <br>
+        <hr>
+        <h3>5:右ひざ</h3>
+        <img src="Sub/Picture/Tracker5.png" width="100%">
+        <br>
+        <hr>
+        <h3>6:左ひざ</h3>
+        <img src="Sub/Picture/Tracker6.png" width="100%">
+        <br>
+        <hr>
+        <h3>7:頭</h3>
+        <img src="Sub/Picture/Tracker7.png" width="100%">
+        <br>
+        <hr>
+        <h3>8:右手</h3>
+        <img src="Sub/Picture/Tracker8.png" width="100%">
+        <br>
+        <hr>
+        <h3>9:左手</h3>
+        <img src="Sub/Picture/Tracker9.png" width="100%">
+    </div>
+    <br>
+    <hr>
+    <h2 id="VMCP">VMC Protocl 仕様</h2>
+    <hr class="dashed">
+    <p>基本的にIKがあまりよくないので Assistant として使うのをおすすめします。</p>
+    <p>Assistant・Performer共に現在は受信を受け付けておりません。</p>
+    <p>Assistantで、Bodyのときは体の各部位をトラッカーとして送ります。インデックスは上の通りです。</p>
+    <p>Assistantで、Faceのときは頭の位置をトラッカーとして送り、目の向いてる位置・BlendShapeを送ります。</p>
+    <p>Assistantで、Bothのときは、BodyとFaceの両方を送ります。</p>
+    <p>Performerでは、モデルの全てのボーンとBlendShapeを送ります。</p>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color:silver; margin: 0; padding-top: 0.5em; padding-bottom: 0.5em;">
+        <p class="small" style="text-align: center">MIT License Copyright 2019 kumaS</p>
+        <p class="small" style="text-align: center">mail address kumaS.kumachan@gmail.com</p>
+    </div>
+</body>
+
+</html>
